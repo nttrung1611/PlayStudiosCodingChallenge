@@ -1,0 +1,6 @@
+@PlayStudiosCodingChallenge.Server_HostAddress = http://localhost:5214
+
+GET {{PlayStudiosCodingChallenge.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
