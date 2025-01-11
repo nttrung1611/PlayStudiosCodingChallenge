@@ -24,6 +24,11 @@ namespace PlayStudiosCodingChallenge.Data.Repositories
             _dbContext = dbContext;
         }
 
+        /// <summary>
+        /// Insert a PlayerQuestState into database
+        /// </summary>
+        /// <param name="playerQuestState"></param>
+        /// <returns></returns>
         public async Task CreateQuestState(PlayerQuestState playerQuestState)
         {
             try
@@ -37,6 +42,11 @@ namespace PlayStudiosCodingChallenge.Data.Repositories
             }
         }
 
+        /// <summary>
+        /// Update a PlayerQuestState to database
+        /// </summary>
+        /// <param name="playerQuestState"></param>
+        /// <returns></returns>
         public async Task UpdateQuestState(PlayerQuestState playerQuestState)
         {
             try
@@ -50,6 +60,11 @@ namespace PlayStudiosCodingChallenge.Data.Repositories
             }
         }
 
+        /// <summary>
+        /// Get PlayerQuestState using playerId
+        /// </summary>
+        /// <param name="playerId"></param>
+        /// <returns></returns>
         public async Task<PlayerQuestState?> GetQuestStateByPlayerId(Guid playerId)
         {
             var questState = await _dbContext.PlayerQuestStates.FindAsync(playerId);

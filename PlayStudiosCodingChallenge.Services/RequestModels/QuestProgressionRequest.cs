@@ -9,7 +9,7 @@ namespace PlayStudiosCodingChallenge.Services.Models
     public class QuestProgressionRequest
     {
         public Guid PlayerId { get; set; }
-        public int PlayerLevel { get; set; }
+        public uint PlayerLevel { get; set; }
         public uint ChipAmountBet { get; set; }
 
     }

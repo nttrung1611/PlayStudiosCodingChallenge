@@ -5,13 +5,13 @@ using PlayStudiosCodingChallenge.Services.Models;
 
 namespace PlayStudiosCodingChallenge.Server.Controllers
 {
-    [Route("api/[controller]/[action]")]
+    [Route("api/[action]")]
     [ApiController]
-    public class QuestStateController : ControllerBase
+    public class QuestController : ControllerBase
     {
         private readonly IPlayerQuestService _playerQuestService;
 
-        public QuestStateController(IPlayerQuestService playerQuestService)
+        public QuestController(IPlayerQuestService playerQuestService)
         {
             _playerQuestService = playerQuestService;   
         }
@@ -21,6 +21,9 @@ namespace PlayStudiosCodingChallenge.Server.Controllers
         {
             try
             {
+                if (request.ChipAmountBet <= 0)
+                    return BadRequest("ChipAmountBet must be greater than 0");
+
                 var response = await _playerQuestService.UpdateQuestProgress(request);
 
                 return Ok(response);
@@ -36,12 +39,9 @@ namespace PlayStudiosCodingChallenge.Server.Controllers
         {
             try
             {
-                //var isGuid = Guid.TryParse(playerId, out Guid playerIdGuid);
-                //if (!isGuid) { return BadRequest(); }
-
                 var questState = await _playerQuestService.GetQuestState(playerId);
 
-                if (questState == null) { return NotFound(); }
+                if (questState == null) { return NotFound("Player quest state not found!"); }
 
                 return Ok(questState);
             }

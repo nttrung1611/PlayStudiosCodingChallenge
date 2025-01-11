@@ -43,7 +43,15 @@ export default defineConfig({
     },
     server: {
         proxy: {
-            '^/weatherforecast': {
+            '^/api/progress': {
+                target,
+                secure: false
+            },
+            '^/api/state': {
+                target,
+                secure: false
+            },
+            '^/api/getplayerid': {
                 target,
                 secure: false
             }

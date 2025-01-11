@@ -12,7 +12,7 @@ namespace PlayStudiosCodingChallenge.Services.ServiceModels
 
         public double RateFromBet { get; set; }
         public double LevelBonusRate { get; set; }
-        public int TotalQuestPointsForCompletion { get; set; }
+        public double TotalQuestPointsForCompletion { get; set; }
         public int QuestMilestones { get; set; }
         public int ChipsAwardedForMilestoneCompletion { get; set; }
     }

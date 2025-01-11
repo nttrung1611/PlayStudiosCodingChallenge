@@ -1,8 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using PlayStudiosCodingChallenge.Data.Models;
 using PlayStudiosCodingChallenge.Data.Repositories;
-using PlayStudiosCodingChallenge.Services.Helpers;
 using PlayStudiosCodingChallenge.Services.Models;
 using PlayStudiosCodingChallenge.Services.ResponseModels;
 using PlayStudiosCodingChallenge.Services.ServiceModels;
@@ -27,6 +25,12 @@ namespace PlayStudiosCodingChallenge.Services
             _questConfiguration = questConfiguration.Value;
         }
 
+        /// <summary>
+        /// Quest progress method that creates or updates quest state
+        /// and calculates quest progression
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
         public async Task<QuestProgressionResponse> UpdateQuestProgress(QuestProgressionRequest request)
         {
             try
@@ -56,7 +60,7 @@ namespace PlayStudiosCodingChallenge.Services
                 {
                     // Else update current quest state
                     questPointsEarned = CalculateQuestPoints(request.ChipAmountBet, request.PlayerLevel);
-                    milestonesCompleted = CalculateMilestoneCompleted(questPointsEarned, questState.LastMilestoneIndexCompleted);
+                    milestonesCompleted = CalculateMilestoneCompleted(questState.TotalQuestPointsEarned + questPointsEarned, questState.LastMilestoneIndexCompleted);
 
                     questState.TotalQuestPointsEarned += questPointsEarned;
                     questState.LastMilestoneIndexCompleted += milestonesCompleted;
@@ -66,7 +70,7 @@ namespace PlayStudiosCodingChallenge.Services
 
                 double totalQuestPointsEarned = questState != null ? questState.TotalQuestPointsEarned : questPointsEarned;
 
-                var milestonesCompletedList = GetListMilestonesCompleted(lastMilestoneIndexCompleted, milestonesCompleted);
+                var milestonesCompletedList = GetMilestonesCompletedList(lastMilestoneIndexCompleted, milestonesCompleted);
 
                 return new QuestProgressionResponse
                 {
@@ -82,6 +86,11 @@ namespace PlayStudiosCodingChallenge.Services
             }
         }
 
+        /// <summary>
+        /// Get the state of player quest
+        /// </summary>
+        /// <param name="playerId"></param>
+        /// <returns></returns>
         public async Task<QuestStateResponse?> GetQuestState(Guid playerId)
         {
             try
@@ -103,31 +112,35 @@ namespace PlayStudiosCodingChallenge.Services
             }
         }
 
+        /// <summary>
+        /// Returns a Guid
+        /// </summary>
+        /// <returns></returns>
         public Guid GetPlayerId()
         {
             return Guid.NewGuid();
         }
 
         #region Private methods
-        private double CalculateQuestPoints(uint chipAmountBet, int playerLevel)
+        private double CalculateQuestPoints(uint chipAmountBet, uint playerLevel)
         {
             var questPointsEarned = (chipAmountBet * _questConfiguration.RateFromBet) + (playerLevel * _questConfiguration.LevelBonusRate);
 
             return Math.Round(questPointsEarned, 2);
         }
 
-        private int CalculateMilestoneCompleted(double questPointsEarned, int lastMilestoneIndexCompleted)
+        private int CalculateMilestoneCompleted(double totalQuestPointsEarned, int lastMilestoneIndexCompleted)
         {
-            var milestoneCompletionPoint = (double)(_questConfiguration.TotalQuestPointsForCompletion / _questConfiguration.QuestMilestones);
+            var milestoneCompletionPoint = _questConfiguration.TotalQuestPointsForCompletion / _questConfiguration.QuestMilestones;
 
-            var milestonesCompleted = (int)Math.Floor(questPointsEarned / milestoneCompletionPoint);
+            var milestonesCompleted = (int)Math.Floor(totalQuestPointsEarned / milestoneCompletionPoint);
 
             // If exceeds total quest milestones then remove surplus milestones
-            var surplusMilestones = lastMilestoneIndexCompleted + milestonesCompleted - _questConfiguration.QuestMilestones;
+            var surplusMilestones = milestonesCompleted - _questConfiguration.QuestMilestones;
             if (surplusMilestones > 0)
                 milestonesCompleted -= surplusMilestones;
 
-            return milestonesCompleted;
+            return milestonesCompleted - lastMilestoneIndexCompleted;
         }
 
         private double CalculateTotalQuestPercentCompleted(double totalQuestPointsEarned)
@@ -137,11 +150,11 @@ namespace PlayStudiosCodingChallenge.Services
                 return 100;
             }
 
-            var percentage = Math.Round(totalQuestPointsEarned / _questConfiguration.TotalQuestPointsForCompletion, 4) * 100;
+            var percentage = Math.Round(totalQuestPointsEarned / _questConfiguration.TotalQuestPointsForCompletion * 100, 2);
             return percentage;
         }
 
-        private List<MilestoneCompleted> GetListMilestonesCompleted(int? lastMilestoneIndexCompleted, int milestonesCompleted)
+        private List<MilestoneCompleted> GetMilestonesCompletedList(int? lastMilestoneIndexCompleted, int milestonesCompleted)
         {
             var milestonesCompletedList = new List<MilestoneCompleted>();
 
