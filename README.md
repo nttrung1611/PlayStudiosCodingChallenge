@@ -16,6 +16,7 @@
 2. Right-click on **PlayStudiosCodingChallenge.UnitTests** -> Run
 
 **Quest Configuration JSON Documentation**
+
 Quest configuration parameters are stored in **PlayStudiosCodingChallenge.Server**/appsettings.json
 - **RateFromBet**: The rate from bet
 - **LevelBonusRate**: The rate for player level bonus
@@ -24,4 +25,5 @@ Quest configuration parameters are stored in **PlayStudiosCodingChallenge.Server
 - **ChipsAwardedForMilestoneCompletion**: Chips reward for each milestone completion
 
 **Sequence Diagram & Database Schema**
+
 Sees **Diagrams** folder in **PlayStudiosCodingChallenge.Server**
