@@ -3,7 +3,6 @@ import * as React from "react";
 import './App.css';
 
 function App() {
-    const [forecasts, setForecasts] = useState();
     const [questProgress, setQuestProgress] = useState();
     const [questState, setQuestState] = useState();
     const [playerId, setPlayerId] = useState("");
@@ -20,11 +19,6 @@ function App() {
 
     const handleChipAmountBetChange = (event) => {
       setChipAmountBet(event.target.value);
-    };
-
-    const style = {
-      display: "flex",
-      flexDirection: "row"
     };
 
     const progress = async () => {

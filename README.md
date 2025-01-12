@@ -8,10 +8,15 @@
 3. Rebuild solution
 4. Do either step 5 or 6 based on your preference
 5. (OPTIONAL) To run both front end and backend projects: Right-click on solution in Solution Explorer -> **Properties** -> Make sure **Multiple startup projects** is selected -> Choose **Start** for **PlayStudiosCodingChallenge.Server** & **PlayStudiosCodingChallenge.client**
-6. (OPTIONAL if you already did step 5) Right-click on **PlayStudiosCodingChallenge.Server** in Solution Explorer -> Click **Set as startup project**
-7. Click **Start**
+6. (OPTIONAL) To run only backend API: Right-click on **PlayStudiosCodingChallenge.Server** in Solution Explorer -> Click **Set as startup project**
+7. Click **Start** (Note: For front end it might take a few minutes for npm to build)
+
+**RUN UNIT TESTS**
+1. Open **Test Explorer** in Visual Studio
+2. Right-click on **PlayStudiosCodingChallenge.UnitTests** -> Run
 
 **Quest Configuration JSON Documentation**
+Quest configuration parameters are stored in **PlayStudiosCodingChallenge.Server**/appsettings.json
 - **RateFromBet**: The rate from bet
 - **LevelBonusRate**: The rate for player level bonus
 - **TotalQuestPointsForCompletion**: The total quest points required for completion or 100%

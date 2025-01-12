@@ -75,7 +75,7 @@ namespace PlayStudiosCodingChallenge.UnitTests
         }
 
         [Fact]
-        public async Task GetQuestState_ShouldReturn100_ForTotalQuestPercentCompleted_WhenTotalQuestPointsEarned_HasValueEqualsTotalQuestPointsForCompletion()
+        public async Task GetQuestState_ShouldReturn100_ForTotalQuestPercentCompleted_WhenTotalQuestPointsForCompletionHasBeenReached()
         {
             // Arrange
             var playerId = Guid.NewGuid();
@@ -201,7 +201,7 @@ namespace PlayStudiosCodingChallenge.UnitTests
         }
 
         [Fact]
-        public async Task UpdateQuestProgress_ShouldReturnMilestonesCompletedList_WhenMilestoneCompleted()
+        public async Task UpdateQuestProgress_ShouldReturnMilestonesCompletedList_WhenMilestoneIsCompleted()
         {
             // Arrange
             var playerId = Guid.NewGuid();
