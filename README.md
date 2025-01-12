@@ -27,3 +27,5 @@ Quest configuration parameters are stored in **PlayStudiosCodingChallenge.Server
 **Sequence Diagram & Database Schema**
 
 Sees **Diagrams** folder in **PlayStudiosCodingChallenge.Server**
+
+If you have any issue running this project feel free to contact me at: nttrung161197@gmail.com
